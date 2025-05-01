@@ -1,0 +1,61 @@
+{% extends "trading_journal/base.html" %}
+{% block title %}Mood Analysis{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h1>Mood Analysis</h1>
+    
+    <div class="chart-container">
+        <h2>Performance by Mood</h2>
+        {% if mood_chart %}
+            <img src="{{ mood_chart }}" alt="Mood Analysis Chart" class="chart">
+        {% else %}
+            <p>Not enough data to generate chart.</p>
+        {% endif %}
+    </div>
+    
+    <div class="mood-analysis-data">
+        <h2>Detailed Mood Statistics</h2>
+        
+        {% if mood_data %}
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Mood</th>
+                        <th>Trades</th>
+                        <th>Win Rate</th>
+                        <th>Avg. P&L</th>
+                        <th>Total P&L</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mood in mood_data %}
+                    <tr>
+                        <td>
+                            <span class="mood-indicator" style="background-color: {{ mood.color }}">
+                                {{ mood.mood }}
+                            </span>
+                        </td>
+                        <td>{{ mood.count }}</td>
+                        <td>{{ mood.win_rate|floatformat:1 }}%</td>
+                        <td class="{% if mood.avg_pnl > 0 %}positive{% elif mood.avg_pnl < 0 %}negative{% endif %}">
+                            {{ mood.avg_pnl|floatformat:2 }}
+                        </td>
+                        <td class="{% if mood.total_pnl > 0 %}positive{% elif mood.total_pnl < 0 %}negative{% endif %}">
+                            {{ mood.total_pnl|floatformat:2 }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <a href="{% url 'manage_moods' %}" class="btn">Manage Moods</a>
+        {% else %}
+            <div class="empty-state">
+                <p>No mood data available yet. Start adding moods to your journal entries.</p>
+                <a href="{% url 'manage_moods' %}" class="btn">Set Up Moods</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

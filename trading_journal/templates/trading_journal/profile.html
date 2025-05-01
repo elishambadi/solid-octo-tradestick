@@ -1,0 +1,26 @@
+{% extends "trading_journal/base.html" %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Your Profile</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-section">
+            <h2>Account Information</h2>
+            {{ user_form.as_p }}
+        </div>
+        
+        <div class="form-section">
+            <h2>Trading Information</h2>
+            {{ profile_form.as_p }}
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn">Save Changes</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

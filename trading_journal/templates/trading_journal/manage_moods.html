@@ -1,0 +1,40 @@
+{% extends "trading_journal/base.html" %}
+{% block title %}Manage Moods{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h1>Manage Moods</h1>
+    
+    <div class="form-container">
+        <h2>Add New Mood</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn">Add Mood</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="mood-list">
+        <h2>Current Moods</h2>
+        
+        {% if moods %}
+            <div class="mood-grid">
+                {% for mood in moods %}
+                <div class="mood-card" style="border-color: {{ mood.color }}">
+                    <h3 style="color: {{ mood.color }}">{{ mood.name }}</h3>
+                    <div class="mood-color-sample" style="background-color: {{ mood.color }}"></div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>No moods defined yet. Add your first mood above.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

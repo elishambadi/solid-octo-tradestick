@@ -1,0 +1,21 @@
+{% extends "trading_journal/base.html" %}
+{% block title %}Delete Transaction{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Delete Transaction</h1>
+    
+    <div class="confirmation-box">
+        <p>Are you sure you want to delete the {{ transaction.get_transaction_type_display|lower }} 
+           of {{ transaction.amount|floatformat:2 }} from {{ transaction.date }}?</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button type="submit" class="btn danger">Delete</button>
+                <a href="{% url 'transaction_list' %}" class="btn secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

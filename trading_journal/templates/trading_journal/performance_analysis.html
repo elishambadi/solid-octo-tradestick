@@ -1,0 +1,90 @@
+{% extends "trading_journal/base.html" %}
+{% block title %}Performance Analysis{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h1>Performance Analysis</h1>
+    
+    <div class="performance-metrics">
+        <div class="metric-card">
+            <h3>Total P&L</h3>
+            <p class="metric-value {% if total_pnl > 0 %}positive{% elif total_pnl < 0 %}negative{% endif %}">
+                {{ total_pnl|floatformat:2 }}
+            </p>
+        </div>
+        
+        <div class="metric-card">
+            <h3>Win Rate</h3>
+            <p class="metric-value">{{ win_rate|floatformat:1 }}%</p>
+            <p class="metric-detail">{{ profitable_days }} / {{ total_days }} days</p>
+        </div>
+        
+        <div class="metric-card">
+            <h3>Average Daily P&L</h3>
+            <p class="metric-value {% if avg_daily_pnl > 0 %}positive{% elif avg_daily_pnl < 0 %}negative{% endif %}">
+                {{ avg_daily_pnl|floatformat:2 }}
+            </p>
+        </div>
+    </div>
+    
+    <div class="chart-container">
+        <h2>Account Balance</h2>
+        {% if performance_chart %}
+            <img src="{{ performance_chart }}" alt="Performance Chart" class="chart">
+        {% else %}
+            <p>Not enough data to generate chart.</p>
+        {% endif %}
+    </div>
+    
+    <div class="chart-container">
+        <h2>Daily P&L</h2>
+        {% if daily_pnl_chart %}
+            <img src="{{ daily_pnl_chart }}" alt="Daily P&L Chart" class="chart">
+        {% else %}
+            <p>Not enough data to generate chart.</p>
+        {% endif %}
+    </div>
+    
+    <div class="performance-highlights">
+        <div class="highlight-section">
+            <h2>Best Day</h2>
+            {% if best_day %}
+                <div class="highlight-card">
+                    <p class="highlight-date">{{ best_day.date }}</p>
+                    <p class="highlight-value positive">{{ best_day.daily_pnl|floatformat:2 }}</p>
+                    {% if best_day.mood %}
+                        <p class="highlight-mood">
+                            Mood: <span class="mood-indicator" style="background-color: {{ best_day.mood.color }}">
+                                {{ best_day.mood.name }}
+                            </span>
+                        </p>
+                    {% endif %}
+                    <p class="highlight-notes">{{ best_day.notes|default:"No notes" }}</p>
+                </div>
+            {% else %}
+                <p>No data available</p>
+            {% endif %}
+        </div>
+        
+        <div class="highlight-section">
+            <h2>Worst Day</h2>
+            {% if worst_day %}
+                <div class="highlight-card">
+                    <p class="highlight-date">{{ worst_day.date }}</p>
+                    <p class="highlight-value negative">{{ worst_day.daily_pnl|floatformat:2 }}</p>
+                    {% if worst_day.mood %}
+                        <p class="highlight-mood">
+                            Mood: <span class="mood-indicator" style="background-color: {{ worst_day.mood.color }}">
+                                {{ worst_day.mood.name }}
+                            </span>
+                        </p>
+                    {% endif %}
+                    <p class="highlight-notes">{{ worst_day.notes|default:"No notes" }}</p>
+                </div>
+            {% else %}
+                <p>No data available</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
