@@ -4,7 +4,7 @@ name: forex-journal
 
 services:
   postgres:
-    image: postgres:13
+    image: postgres:latest
     container_name: forex-journal-db
     restart: always
     environment:
