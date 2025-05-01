@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-cc#q&*czccp!!s7&c#d!68mvehc088r^7k(==p9+=qyohcqm5p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['trade.elimbadi.com']
 
 
 # Application definition
